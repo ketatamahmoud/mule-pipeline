@@ -1,5 +1,5 @@
 name: 'build'
-description: 'Builds , tests and packages '
+
 on:
   workflow_call:
     inputs:
