@@ -36,7 +36,7 @@ jobs:
             run: wget https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.zip
 
           - name: ls
-            run: ls -la ${{ env.MAVEN_HOME }}
+            run: ls 
 
           - name: Extract Maven 3.9.1
             run: unzip apache-maven-3.9.1-bin.zip -d ${{ env.MAVEN_HOME }}
