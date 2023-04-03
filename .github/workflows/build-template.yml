@@ -1,5 +1,3 @@
-name: 'build'
-
 on:
   workflow_call:
     inputs:
@@ -42,10 +40,6 @@ jobs:
 
           - name: Extract Maven 3.9.1
             run: unzip apache-maven-3.9.1-bin.zip -d ${{ env.MAVEN_HOME }}
-
-
-          - name: maven version
-            run: ${{ env.MAVEN_HOME }}/bin/mvn -version
 
           - name: ls
             run: ls -la ${{ env.MAVEN_HOME }}
