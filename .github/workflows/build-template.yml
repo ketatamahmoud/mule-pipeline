@@ -37,6 +37,8 @@ jobs:
 
           - name: ls
             run: ls 
+          - name : mkdir 
+            run : mkdir -p ${{ env.MAVEN_HOME }}
 
           - name: Extract Maven 3.9.1
             run: unzip apache-maven-3.9.1-bin.zip -d ${{ env.MAVEN_HOME }}
