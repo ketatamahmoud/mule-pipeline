@@ -1,0 +1,72 @@
+name: 'build'
+description: 'Builds , tests and packages '
+on:
+  workflow_call:
+    inputs:
+      pipelineType:
+        required: true
+        type: string
+      businessGroup:
+        required: true
+        type: string
+env:
+  MAVEN_CACHE_FOLDER: ${{ github.workspace }}/.m2/repository
+  MAVEN_HOME: ${{ github.workspace }}/maven/apache-maven-3.8.7
+  MAVEN_JAVA_OPTIONS: -Xmx1024m
+  MAVEN_OPTIONS: -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER) -e
+#  SYSTEM_ACCESS_TOKEN: ${{ secrets.SYSTEM_ACCESS_TOKEN }}
+
+#  mavenPomFile: 'pom.xml'
+#  mavenOptions: '$(MAVEN_OPTIONS)'
+#  mavenDirectory: '$(MAVEN_HOME)'
+#  goals: 'clean install'
+#  publishJUnitResults: false
+#  testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+#  options: '-s $(settings.secureFilePath) $(MAVEN_OPTIONS) -DconnectedAppClientId=$(connectedAppClientId) -DconnectedAppClientSecret=$(connectedAppClientSecret) -Dmunit.failIfNoTests=false'
+#  jdkVersionOption: '1.8'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3
+
+          - name: Download Maven 3.8.7
+            run: wget https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.zip
+
+          - name: ls
+            run: ls -la ${{ env.MAVEN_HOME }}
+
+          - name: Extract Maven 3.8.7
+            run: unzip apache-maven-3.8.7-bin.zip -d ${{ env.MAVEN_HOME }}
+
+
+          - name: maven version
+            run: ${{ env.MAVEN_HOME }}/bin/mvn -version
+
+          - name: ls
+            run: ls -la ${{ env.MAVEN_HOME }}
+
+          - name: Cache Maven repository
+            uses: actions/cache@v2
+            with:
+              path: ${{ env.MAVEN_CACHE_FOLDER }}
+              key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+              restore-keys: |
+                ${{ runner.os }}-maven-
+#        - name: Cache Maven repository
+#          uses: actions/cache@v2
+#          with:
+#            path: ${{ env.MAVEN_CACHE_FOLDER }}
+#            key: ${{ hashFiles('**/pom.xml') }}
+
+          - name: Set up JDK 1.8
+            uses: actions/setup-java@v2
+            with:
+              java-version: 1.8
+              distribution: 'adopt'
+
+          - name : java -version
+            run: java -version
+
