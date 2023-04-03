@@ -11,7 +11,7 @@ on:
         type: string
 env:
   MAVEN_CACHE_FOLDER: ${{ github.workspace }}/.m2/repository
-  MAVEN_HOME: ${{ github.workspace }}/maven/apache-maven-3.8.7
+  MAVEN_HOME: ${{ github.workspace }}/maven/apache-maven-3.9.1
   MAVEN_JAVA_OPTIONS: -Xmx1024m
   MAVEN_OPTIONS: -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER) -e
 #  SYSTEM_ACCESS_TOKEN: ${{ secrets.SYSTEM_ACCESS_TOKEN }}
@@ -32,14 +32,14 @@ jobs:
           - name: Checkout
             uses: actions/checkout@v3
 
-          - name: Download Maven 3.8.7
-            run: wget https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.zip
+          - name: Download Maven 3.9.1
+            run: wget https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.zip
 
           - name: ls
             run: ls -la ${{ env.MAVEN_HOME }}
 
-          - name: Extract Maven 3.8.7
-            run: unzip apache-maven-3.8.7-bin.zip -d ${{ env.MAVEN_HOME }}
+          - name: Extract Maven 3.9.1
+            run: unzip apache-maven-3.9.1-bin.zip -d ${{ env.MAVEN_HOME }}
 
 
           - name: maven version
