@@ -1,3 +1,4 @@
+name: Build Template
 on:
   workflow_call:
     inputs:
@@ -12,16 +13,16 @@ env:
   MAVEN_HOME: ${{ github.workspace }}/maven/apache-maven-3.9.1
   MAVEN_JAVA_OPTIONS: -Xmx1024m
   MAVEN_OPTIONS: -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER) -e
-#  SYSTEM_ACCESS_TOKEN: ${{ secrets.SYSTEM_ACCESS_TOKEN }}
+  SYSTEM_ACCESS_TOKEN: ${{ secrets.SYSTEM_ACCESS_TOKEN }}
 
-#  mavenPomFile: 'pom.xml'
-#  mavenOptions: '$(MAVEN_OPTIONS)'
-#  mavenDirectory: '$(MAVEN_HOME)'
-#  goals: 'clean install'
-#  publishJUnitResults: false
-#  testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
-#  options: '-s $(settings.secureFilePath) $(MAVEN_OPTIONS) -DconnectedAppClientId=$(connectedAppClientId) -DconnectedAppClientSecret=$(connectedAppClientSecret) -Dmunit.failIfNoTests=false'
-#  jdkVersionOption: '1.8'
+  mavenPomFile: 'pom.xml'
+  mavenOptions: '$(MAVEN_OPTIONS)'
+  mavenDirectory: '$(MAVEN_HOME)'
+  goals: 'clean install'
+  publishJUnitResults: false
+  testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+  options: '-s $(settings.secureFilePath) $(MAVEN_OPTIONS) -DconnectedAppClientId=$(connectedAppClientId) -DconnectedAppClientSecret=$(connectedAppClientSecret) -Dmunit.failIfNoTests=false'
+  jdkVersionOption: '1.8'
 
 jobs:
     build:
@@ -32,18 +33,13 @@ jobs:
 
           - name: Download Maven 3.9.1
             run: wget https://dlcdn.apache.org/maven/maven-3/3.9.1/binaries/apache-maven-3.9.1-bin.zip
-
-          - name: ls
-            run: ls 
           - name : mkdir 
             run : mkdir -p ${{ env.MAVEN_HOME }}
 
           - name: Extract Maven 3.9.1
             run: unzip apache-maven-3.9.1-bin.zip -d ${{ env.MAVEN_HOME }}
-
-          - name: ls
-            run: ls -la ${{ env.MAVEN_HOME }}
-
+          - name: Set Maven Path
+            run: echo "${{ env.MAVEN_HOME }}/bin" >> $GITHUB_PATH
           - name: Cache Maven repository
             uses: actions/cache@v2
             with:
@@ -51,18 +47,34 @@ jobs:
               key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
               restore-keys: |
                 ${{ runner.os }}-maven-
-#        - name: Cache Maven repository
-#          uses: actions/cache@v2
-#          with:
-#            path: ${{ env.MAVEN_CACHE_FOLDER }}
-#            key: ${{ hashFiles('**/pom.xml') }}
-
-          - name: Set up JDK 11 
+          - name: Set up JDK 11
             uses: actions/setup-java@v3 
             with: 
               java-version: "11" 
-              distribution: temurin 
+              distribution: temurin
 
-          - name : java -version
-            run: java -version
+#          - name: Define Variables
+#            run: |
+#              PROJECT_VERSION=$(mvn -s $(settings.secureFilePath) $MAVEN_OPTIONS org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
+#              echo "##vso[task.setvariable variable=PROJECT_VERSION]$PROJECT_VERSION"
+#              BUILD_NUMBER=$(Build.Repository.Name)-$PROJECT_VERSION-${{ inputs.pipelineType }}
+#              echo "##vso[build.updatebuildnumber]$BUILD_NUMBER"
+#              echo "##vso[task.setvariable variable=BUILD_NUMBER]$BUILD_NUMBER"
+
+#          - name: Build
+#            run: |
+#              mvn -s $(settings.secureFilePath) $MAVEN_OPTIONS -DconnectedAppClientId=$(connectedAppClientId) -DconnectedAppClientSecret=$(connectedAppClientSecret) -Dmunit.failIfNoTests=false clean install
+#
+          - name: build
+            run: |
+                mvn clean package -DskipTests -Dmaven.javadoc.skip=true -B -V -Dmaven.test.skip=true
+          - name: test
+            run: |
+                mvn test -B -V -Dmaven.test.skip=false
+          - name: ls
+            run: |
+                    ls -al
+          - name: ls target
+            run: |
+                    ls -al target
 
