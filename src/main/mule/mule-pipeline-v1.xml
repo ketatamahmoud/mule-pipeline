@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f71f6bb5-1131-41eb-ab10-1819718ba10d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mule-pipelineFlow" doc:id="a6b7e290-764d-4c58-b8b4-ca6683b70dca" >
+		<http:listener doc:name="Listener" doc:id="6355a644-61d8-4295-a3fe-45b81745f43b" config-ref="HTTP_Listener_config" path="/test" />
+		<ee:transform doc:name="Transform Message" doc:id="0e44e52c-4dea-4b3a-80e6-ed4c4640b3b2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	num: 3
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="d4a90bc6-1ec0-4b84-8da4-964a74c59ad0" name="mule-pipelineSub_Flow" />
+	</flow>
+	<sub-flow name="mule-pipelineSub_Flow" doc:id="ab05a373-8143-4b14-953f-9d7cdb5c8d4c" >
+		<ee:transform doc:name="Transform Message" doc:id="043cc9ee-3606-4e33-9ff3-7ad033a48ca6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	num: (payload.num as Number )* 2
+	}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
