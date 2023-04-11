@@ -67,7 +67,7 @@ jobs:
 #
           - name: test
             run: |
-                mvn test -B -V -Dmaven.test.skip=false
+               mvn test -B -Dmaven.test.skip=false
 
           - name: Set project version
             run: |
