@@ -53,9 +53,9 @@ jobs:
               java-version: "11" 
               distribution: temurin
 
-#          - name: Define Variables
-#            run: |
-#              PROJECT_VERSION=$(mvn -s $(settings.secureFilePath) $MAVEN_OPTIONS org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
+          - name: Define Variables
+            run: |
+              PROJECT_VERSION=$(mvn $MAVEN_OPTIONS org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
 #              echo "##vso[task.setvariable variable=PROJECT_VERSION]$PROJECT_VERSION"
 #              BUILD_NUMBER=$(Build.Repository.Name)-$PROJECT_VERSION-${{ inputs.pipelineType }}
 #              echo "##vso[build.updatebuildnumber]$BUILD_NUMBER"
@@ -65,16 +65,16 @@ jobs:
 #            run: |
 #              mvn -s $(settings.secureFilePath) $MAVEN_OPTIONS -DconnectedAppClientId=$(connectedAppClientId) -DconnectedAppClientSecret=$(connectedAppClientSecret) -Dmunit.failIfNoTests=false clean install
 #
-          - name: build
-            run: |
-                mvn clean package -DskipTests -Dmaven.javadoc.skip=true -B -V -Dmaven.test.skip=true
           - name: test
             run: |
                 mvn test -B -V -Dmaven.test.skip=false
-          - name: ls
-            run: |
-                    ls -al
-          - name: ls target
-            run: |
-                    ls -al target
 
+          - name: Set project version
+            run: |
+                  PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+                  echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
+                  
+          - name: build
+            run: |
+                mvn clean package -Dmaven.javadoc.skip=true -B -V -Dmaven.test.skip=true
+         
