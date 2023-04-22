@@ -9,7 +9,7 @@ jobs:
       businessGroup: myBusinessGroup
   DEV:
     runs-on: ubuntu-latest
-    environment: Dev
+    environment: DEV
     steps:
       - uses: actions/checkout@v2
 
