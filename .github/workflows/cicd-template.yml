@@ -1,6 +1,5 @@
 name: CI/CD Pipeline
-on:
-  workflow_dispatch:
+on: [workflow_dispatch ,push]
 jobs:
   build:
     uses: ./.github/workflows/build-template.yml
@@ -8,9 +7,11 @@ jobs:
       pipelineType: CI
       businessGroup: myBusinessGroup
   DEV: 
-    uses: ./.github/workflows/build-template.yml
-    with:
-      pipelineType: CI
-      businessGroup: myBusinessGroup
+    runs-on: ubuntu-latest
+    environment: Dev
+    steps:
+      
+      - run: echo "${{ secrets.Anypoint_User_Name }}"
+
 
 
