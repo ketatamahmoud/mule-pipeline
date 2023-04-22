@@ -7,5 +7,10 @@ jobs:
     with:
       pipelineType: CI
       businessGroup: myBusinessGroup
+  DEV: 
+    uses: ./.github/workflows/build-template.yml
+    with:
+      pipelineType: CI
+      businessGroup: myBusinessGroup
 
 
