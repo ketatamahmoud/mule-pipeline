@@ -22,7 +22,8 @@ jobs:
           java-version: 8
       - uses: s4u/maven-settings-action@v2.8.0
 
-      - run: mvn verify
+      - run: mvn verify 
+      - run: echo "${{ secrets.Anypoint_User_Name }}"
 
 
       - name: maven-settings-xml-action
@@ -31,6 +32,13 @@ jobs:
           repositories: '[{ "id": "some-repository", "url": "http://some.repository.url" }]'
           plugin_repositories: '[{ "id": "some-plugin-repository", "url": "http://some.plugin.repository.url" }]'
           servers: '[{ "id": "some-server", "username": "${{ secrets.Anypoint_User_Name }}", "password": "some.password" }]'
+          mirrors: '[{ "id": "some-mirror", "url": "http://some.mirror.url" }]'
+          profiles: '[{ "id": "some-profile", "activation": { "activeByDefault": true }, "properties": { "some.property": "some.value" }, "repositories": [{ "id": "some-repo", "url": "http://some.repo.url" }] }]'
+          settings_security: '<settingsSecurity>...</settingsSecurity>'
+          settings: '<settings>...</settings>'
+#           repositories: '[{ "id": "some-repository", "url": "http://some.repository.url" }]'
+#           plugin_repositories: '[{ "id": "some-plugin-repository", "url": "http://some.plugin.repository.url" }]'
+#           servers: '[{ "id": "some-server", "username": "${{ secrets.Anypoint_User_Name }}", "password": "some.password" }]'
       - name: see 
         uses: whelk-io/maven-settings-xml-action@v20
         with:
