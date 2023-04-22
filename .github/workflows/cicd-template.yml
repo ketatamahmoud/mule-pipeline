@@ -10,6 +10,20 @@ jobs:
   DEV:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - uses: s4u/maven-settings-action@v2.8.0
+
+      - run: mvn verify
+
       - uses: whelk-io/maven-settings-xml-action@v20
         with:
           output_file: foo/custom.xml
