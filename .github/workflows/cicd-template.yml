@@ -31,11 +31,10 @@ jobs:
         with:
           repositories: '[{ "id": "some-repository", "url": "http://some.repository.url" }]'
           plugin_repositories: '[{ "id": "some-plugin-repository", "url": "http://some.plugin.repository.url" }]'
-          servers: '[{ "id": "some-server", "username": "${{ secrets.Anypoint_User_Name }}", "password": "some.password" }]'
+          servers: '[{ "id": "some-server", "username": "${{ secrets.Anypoint_User_Name }} nn", "password": "some.password" }]'
           mirrors: '[{ "id": "some-mirror", "url": "http://some.mirror.url" }]'
           profiles: '[{ "id": "some-profile", "activation": { "activeByDefault": true }, "properties": { "some.property": "some.value" }, "repositories": [{ "id": "some-repo", "url": "http://some.repo.url" }] }]'
-          settings_security: '<settingsSecurity>...</settingsSecurity>'
-          settings: '<settings>...</settings>'
+
 #           repositories: '[{ "id": "some-repository", "url": "http://some.repository.url" }]'
 #           plugin_repositories: '[{ "id": "some-plugin-repository", "url": "http://some.plugin.repository.url" }]'
 #           servers: '[{ "id": "some-server", "username": "${{ secrets.Anypoint_User_Name }}", "password": "some.password" }]'
