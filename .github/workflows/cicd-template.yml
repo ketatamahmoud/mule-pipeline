@@ -24,9 +24,7 @@ jobs:
 
       - run: mvn verify
 
-      - uses: whelk-io/maven-settings-xml-action@v20
-        with:
-          output_file: foo/custom.xml
+
       - name: maven-settings-xml-action
         uses: whelk-io/maven-settings-xml-action@v20
         with:
