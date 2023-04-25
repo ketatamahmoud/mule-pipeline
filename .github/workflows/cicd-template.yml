@@ -12,11 +12,14 @@ jobs:
 #     environment: DEV
     steps:
       - run: echo "${{ secrets.Anypoint_User_Name }}"
-      - run: echo "${{ secrets.Anypoint_User_Name }}" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
-      - run: echo "mahmoud" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
-      - run: echo "Mahmoud" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
       - run: var="${{ secrets.Anypoint_User_Name }}" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
       - run : echo $var
+      - run: echo "${{ secrets.Anypoint_User_Name }}" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
+      
+      - run: echo "Mahmoud" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
+      - run: echo "mahmoud" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
+      - run: echo "Mahmoud" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
+
       - uses: actions/cache@v2
         with:
           path: ~/.m2/repository
