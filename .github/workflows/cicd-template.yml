@@ -9,7 +9,7 @@ jobs:
       businessGroup: myBusinessGroup
   DEV:
     runs-on: ubuntu-latest
-    environment: DEV
+#     environment: DEV
     steps:
       - uses: actions/checkout@v2
 
@@ -25,6 +25,8 @@ jobs:
 
       - run: mvn verify 
       - run: echo "${{ secrets.Anypoint_User_Name }}"
+      - run: echo "${{ secrets.Anypoint_User_Name }}" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
+
 
 
       - name: maven-settings-xml-action
