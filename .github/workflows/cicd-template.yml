@@ -12,7 +12,8 @@ jobs:
 #     environment: DEV
     steps:
       - run: |
-          echo "${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a -salt -k "mykey" -pbkdf2 -md sha256
+          var="${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a -salt -k "mykey" -pbkdf2 -md sha256
+          echo -n "${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a -salt -k "mykey" -pbkdf2 -md sha256
 
           var="${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a -salt -k "mykey" -pbkdf2 -md sha256
           echo var
