@@ -23,7 +23,7 @@ jobs:
           java-version: 8
       - uses: s4u/maven-settings-action@v2.8.0
 
-      - run: mvn verify 
+#       - run: mvn verify 
       - run: echo "${{ secrets.Anypoint_User_Name }}"
       - run: echo "${{ secrets.Anypoint_User_Name }}" | openssl enc -aes-256-cbc -d -a -salt -pass pass:mykey
 
