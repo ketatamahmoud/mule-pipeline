@@ -13,7 +13,8 @@ jobs:
     steps:
       - run: echo "${{ secrets.Anypoint_User_Name }}"
       - run: var="${{ secrets.Anypoint_User_Name }}" |  openssl enc -aes-256-cbc  -a -salt -k "mykey" -pbkdf2
-      - run : echo $var
+      - run: vasr="blabla"
+      - run: echo $vasr
       - run: echo "${{ secrets.Anypoint_User_Name }}" | openssl enc -aes-256-cbc  -a -salt -k "mykey" -pbkdf2
 
       
