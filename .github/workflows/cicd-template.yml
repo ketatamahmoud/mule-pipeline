@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 #     environment: DEV
     steps:
-      - run: echo "${{ secrets.Anypoint_User_Name }}"
       - run: |
-          var="${{ secrets.Anypoint_User_Name }}" |  openssl enc -d -aes-256-cbc  -a -salt -k "mykey" -pbkdf2
+          echo "${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a -salt -k "mykey" -pbkdf2 -md sha256
+
+          var="${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a -salt -k "mykey" -pbkdf2 -md sha256
           echo var
       - run: vasr="blabla"
       - run: echo $vasr
