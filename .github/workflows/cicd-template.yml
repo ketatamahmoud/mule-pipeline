@@ -12,7 +12,7 @@ jobs:
 #     environment: DEV
     steps:
       - run: |
-          echo $("U2FsdGVkX18EiUt1P1ujXSHbBsg0BPhGsYB3KCrg6Fw=" | openssl enc -aes-256-cbc -d -a -md sha256 -pbkdf2 -k "mykey")
+          sudo echo "U2FsdGVkX18EiUt1P1ujXSHbBsg0BPhGsYB3KCrg6Fw=" | openssl enc -aes-256-cbc -d -a -md sha256 -pbkdf2 -k "mykey"
 
           var2=${{ secrets. SYSTEM_ACCESS_TOKEN }} | cut -d'_' -f 2
           echo $var2
