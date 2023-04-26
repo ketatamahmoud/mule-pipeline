@@ -12,9 +12,7 @@ jobs:
 #     environment: DEV
     steps:
       - run: |
-          echo "U2FsdGVkX18EiUt1P1ujXSHbBsg0BPhGsYB3KCrg6Fw=" | openssl enc -aes-256-cbc -d -a -md sha256 -pbkdf2 -k "mykey"
-          echo -n "mahmoud" | openssl enc -aes-256-cbc -d -a  -md sha256 -pbkdf2 -pass pass:mykey
-          echo -n "${{ secrets. SYSTEM_ACCESS_TOKEN }}" | openssl enc -aes-256-cbc -d -a  -md sha256 -pbkdf2 -pass pass:mykey
+
           var2=${{ secrets. SYSTEM_ACCESS_TOKEN }} | cut -d'_' -f 2
           echo $var2
 
